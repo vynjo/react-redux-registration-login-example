@@ -8,19 +8,19 @@ export const userService = {
   getAll,
   getById,
   update,
-  delete: _delete
+  delete: _delete,
 };
 
 function login(username, password) {
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password })
+    body: JSON.stringify({ username, password }),
   };
 
   return fetch(`${config.apiUrl}/users/authenticate`, requestOptions)
     .then(handleResponse)
-    .then(user => {
+    .then((user) => {
       // store user details and jwt token in local storage to keep user logged in between page refreshes
       localStorage.setItem('user', JSON.stringify(user));
 
@@ -36,7 +36,7 @@ function logout() {
 function getAll() {
   const requestOptions = {
     method: 'GET',
-    headers: authHeader()
+    headers: authHeader(),
   };
 
   return fetch(`${config.apiUrl}/users`, requestOptions).then(handleResponse);
@@ -45,7 +45,7 @@ function getAll() {
 function getById(id) {
   const requestOptions = {
     method: 'GET',
-    headers: authHeader()
+    headers: authHeader(),
   };
 
   return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse);
@@ -55,7 +55,7 @@ function register(user) {
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(user)
+    body: JSON.stringify(user),
   };
 
   return fetch(`${config.apiUrl}/users/register`, requestOptions).then(handleResponse);
@@ -65,7 +65,7 @@ function update(user) {
   const requestOptions = {
     method: 'PUT',
     headers: { ...authHeader(), 'Content-Type': 'application/json' },
-    body: JSON.stringify(user)
+    body: JSON.stringify(user),
   };
 
   return fetch(`${config.apiUrl}/users/${user.id}`, requestOptions).then(handleResponse);
@@ -75,14 +75,14 @@ function update(user) {
 function _delete(id) {
   const requestOptions = {
     method: 'DELETE',
-    headers: authHeader()
+    headers: authHeader(),
   };
 
   return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
-  return response.text().then(text => {
+  return response.text().then((text) => {
     const data = text && JSON.parse(text);
     if (!response.ok) {
       if (response.status === 401) {
